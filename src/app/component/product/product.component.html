@@ -1,0 +1,39 @@
+<div class="container p-5">
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-outline-info" (click)="getAllData()">All</button>
+        <button type="button" class="btn btn-outline-info ml-2">Completed</button>
+      </div>
+</div>
+
+<ng-container *ngIf="users$ | async as res" [ngSwitch]="res.dataState">
+    <ng-container *ngSwitchCase="DataStateEnum.LOADING">
+        <h1>Loading...</h1>
+    </ng-container>
+    <ng-container *ngSwitchCase="DataStateEnum.LOADED">
+        <div class="container">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Id</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Completed</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of res.data; let i=index">
+                 <td>{{i+1}}</td>
+                    <td>{{user.id}}</td>
+                    <td>{{user.title}}</td>
+                    <td>{{user.completed}}</td>
+                  </tr>
+                 
+                </tbody>
+              </table>
+        </div>
+    </ng-container>
+    <ng-container *ngSwitchCase="DataStateEnum.ERROR">
+        <h1>Error on loading</h1>
+    </ng-container>
+
+</ng-container>
